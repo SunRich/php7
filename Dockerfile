@@ -1,0 +1,2 @@
+FROM webdevops/php-apache:centos-7
+RUN sed -i 's#php_value\[session.save_handler\] = files#php_value\[session.save_handler\] = redis#' /etc/php-fpm.d/application.conf && sed -i 's#php_value\[session.save_path\] = /var/lib/php/session#php_value\[session.save_path\] = "tcp://1b24b55fcaed40cb.m.cnqda.kvstore.aliyuncs.com:6379?auth=1b24b55fcaed40cb:feng6KVS8kyyfor\&database=2"#' /etc/php-fpm.d/application.conf
