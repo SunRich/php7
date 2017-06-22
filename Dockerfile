@@ -1,3 +1,8 @@
-FROM webdevops/php-apache:centos-7
-RUN sed -i 's#php_value\[session.save_handler\] = files#php_value\[session.save_handler\] = redis#' /etc/php-fpm.d/application.conf && sed -i 's#php_value\[session.save_path\] = /var/lib/php/session#php_value\[session.save_path\] = "tcp://1b24b55fcaed40cb.m.cnqda.kvstore.aliyuncs.com:6379?auth=1b24b55fcaed40cb:feng6KVS8kyyfor\&database=2"#' /etc/php-fpm.d/application.conf
-RUN printf  '<IfModule deflate_module> \nSetOutputFilter DEFLATE \nSetEnvIfNoCase Request_URI .(?:gif|jpe?g|png)$ no-gzip dont-vary \nSetEnvIfNoCase Request_URI .(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary \nSetEnvIfNoCase Request_URI .(?:pdf|doc|avi|mov|mp3|rm)$ no-gzip dont-vary \nAddOutputFilterByType DEFLATE text/html text/plain text/xml text/css \nAddOutputFilterByType DEFLATE application/x-javascript \n</IfModule>\n' >> /etc/httpd/conf/httpd.conf
+FROM php:7.0.4-apache
+RUN pecl install -o -f redis \
+&&  rm -rf /tmp/pear \
+&&  docker-php-ext-enable redis \
+&& sed -i 's#DocumentRoot /var/www/html#DocumentRoot /vagrant/web/kaoyayacn#' /etc/apache2/apache2.conf \
+&& sed -i 's#<Directory /var/www/>#<Directory /vagrant/web/kaoyayacn/>#' /etc/apache2/apache2.conf
+COPY . /vagrant/web/kaoyayacn
+CMD bash /vagrant/web/kaoyayacn/start.sh
