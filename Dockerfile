@@ -13,6 +13,6 @@ libpng12-dev \
 && printf 'session.save_handler = redis \nsession.save_path = "tcp://1b24b55fcaed40cb.m.cnqda.kvstore.aliyuncs.com:6379?auth=1b24b55fcaed40cb:feng6KVS8kyyfor&database=2"\n' >> /usr/local/etc/php/conf.d/docker-php-ext-redis.ini \
 && sed -i 's#<Directory /var/www/>#<Directory /website/htdocs/kaoyayacn/>#' /etc/apache2/apache2.conf \
 && sed -i 's#DocumentRoot /var/www/html#DocumentRoot /website/htdocs/kaoyayacn/current#' /etc/apache2/apache2.conf \
-&& usermod -u 500 www-data
+&& usermod -u 1000 www-data
 COPY . .
 CMD bash ./start.sh
