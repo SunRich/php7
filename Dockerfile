@@ -14,5 +14,6 @@ libpng12-dev \
 && sed -i 's#<Directory /var/www/>#<Directory /website/htdocs/kaoyayacn/>#' /etc/apache2/apache2.conf \
 && sed -i 's#DocumentRoot /var/www/html#DocumentRoot /website/htdocs/kaoyayacn/current#' /etc/apache2/apache2.conf \
 && usermod -u 1000 www-data
+&& groupmod -g 1000 www-data
 COPY . .
 CMD bash ./start.sh
